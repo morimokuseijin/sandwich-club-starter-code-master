@@ -3,7 +3,6 @@ package com.udacity.sandwichclub;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,20 +64,32 @@ public class DetailActivity extends AppCompatActivity {
         TextView ingredients = findViewById(R.id.ingredients_tv);
         TextView placeOfOrigin = findViewById(R.id.origin_tv);
         TextView description = findViewById(R.id.description_tv);
+        TextView noData = findViewById(R.id.also_known_tv_null);
+        TextView noData2 = findViewById(R.id.origin_tv_null);
+
 
         placeOfOrigin.setText(sandwich.getPlaceOfOrigin());
+        String placeOfOriginData = sandwich.getPlaceOfOrigin();
+        if (placeOfOriginData.length()==0){
+            noData2.setVisibility(TextView.VISIBLE);
+        }
+
         description.setText(sandwich.getDescription());
 
 
 
         StringBuilder mStringBuilder = new StringBuilder();
         List<String> alsoKnownAsList = sandwich.getAlsoKnownAs();
+        if (alsoKnownAsList.size()==0){
+            noData.setVisibility(TextView.VISIBLE);
+        }
         if (alsoKnownAsList.size()>0){
             for (int i = 0;i<alsoKnownAsList.size();i++){
                 mStringBuilder.append(alsoKnownAsList.get(i));
                 if (i<alsoKnownAsList.size()-1){
                     mStringBuilder.append(",");
                 }
+
             }
         alsoKnownAs.setText(mStringBuilder.toString());
         }
@@ -86,7 +97,7 @@ public class DetailActivity extends AppCompatActivity {
         List<String> ingredientsList = sandwich.getIngredients();
         if (ingredientsList.size()>0){
             for (int i = 0;i<ingredientsList.size();i++){
-                mStringBuilder.append(ingredientsList.get(i));
+                mStringBuilder2.append(ingredientsList.get(i));
                 if (i<ingredientsList.size()-1){
                     mStringBuilder2.append(",");
                 }

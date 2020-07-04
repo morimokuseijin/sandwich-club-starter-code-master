@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,26 +25,32 @@ Sandwich sandwich = new Sandwich();
 try {
     JSONObject mJSONObject =new JSONObject(json);
     JSONObject mNameObject = mJSONObject.getJSONObject(NAME);
-    sandwich.setMainName(mNameObject.getString(MAIN_NAME));
+    String mainName = mNameObject.getString(MAIN_NAME);
     JSONArray getAlsoKnownAs = mNameObject.getJSONArray(ALSO_KNOWN_AS);
-    List<String> alsoKnownAs = new ArrayList<>();
+    ArrayList<String> alsoKnownAs = new ArrayList<>();
     for(int i=0 ; i< getAlsoKnownAs.length() ; i++){
         alsoKnownAs.add(getAlsoKnownAs.getString(i));
     }
-sandwich.setAlsoKnownAs(alsoKnownAs);
-    sandwich.setPlaceOfOrigin(mJSONObject.getString(PLACE_OF_ORIGIN));
-    sandwich.setDescription(DESCRIPTION);
-    sandwich.setImage(IMAGE);
-    JSONArray getIngredients = mNameObject.getJSONArray(INGREDIENTS);
+    String origin = mJSONObject.getString(PLACE_OF_ORIGIN);
+    String description = mJSONObject.getString(DESCRIPTION);
+    String imageURL = mJSONObject.getString(IMAGE);
+    JSONArray getIngredients = mJSONObject.getJSONArray(INGREDIENTS);
     List<String> ingredients = new ArrayList<>();
     for (int a = 0;a<getIngredients.length();a++){
         ingredients.add(getIngredients.getString(a));
     }
-    sandwich.setIngredients(ingredients);
+    return new Sandwich(
+            mainName,
+            alsoKnownAs,
+            origin,
+            description,
+            imageURL,
+            ingredients
+    );
 
 } catch (JSONException e) {
     e.printStackTrace();
 }
-        return sandwich;
+        return null;
     }
 }
